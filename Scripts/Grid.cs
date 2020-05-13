@@ -183,8 +183,10 @@ public class Grid : Node2D
         Node2D other_piece = AllPieces[otherPos.X, otherPos.Y];
         AllPieces[pos.X, pos.Y] = other_piece;
         AllPieces[otherPos.X, otherPos.Y] = first_piece;
-        first_piece.Position = GridToPixel(otherPos);
-        other_piece.Position = GridToPixel(pos);
+        // first_piece.Position = GridToPixel(otherPos);
+        // other_piece.Position = GridToPixel(pos);
+        ((Piece)first_piece).Move(GridToPixel(otherPos));
+        ((Piece)other_piece).Move(GridToPixel(pos));
     }
 
     private void TouchDifference(Vector2i pos1, Vector2i pos2)
