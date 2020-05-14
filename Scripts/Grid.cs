@@ -136,10 +136,11 @@ public class Grid : Node2D
     {
         if (Input.IsActionJustPressed("ui_touch"))
         {
-            FirstTouch = GetGlobalMousePosition();
-            Vector2i gridPos = PixelToGrid(FirstTouch);
+            Vector2 firstTouch = GetGlobalMousePosition();
+            Vector2i gridPos = PixelToGrid(firstTouch);
             if (IsInGrid(gridPos))
             {
+                FirstTouch = firstTouch;
                 controllingPiece = true;
             }
         }
@@ -222,17 +223,22 @@ public class Grid : Node2D
 
     private void FindMatches()
     {
-        for (int x = 1; x < width - 1; x++)
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 1; y < height - 1; y++)
+            for (int y = 0; y < height; y++)
             {
                 Piece piece = (Piece)AllPieces[x, y];
-                Piece pieceUp = (Piece)AllPieces[x, y + 1];
-                Piece pieceDown = (Piece)AllPieces[x, y - 1];
-                Piece pieceLeft = (Piece)AllPieces[x - 1, y];
-                Piece pieceRight = (Piece)AllPieces[x + 1, y];
+                if (piece == null)
+                {
+                    continue;
+                }
 
-                String pieceColour = piece != null ? (String)piece.Get("colour") : "blank";
+                Piece pieceUp = y < (height - 1) ? (Piece)AllPieces[x, y + 1] : null;
+                Piece pieceDown = y > 0 ? (Piece)AllPieces[x, y - 1] : null;
+                Piece pieceLeft = x > 0 ? (Piece)AllPieces[x - 1, y] : null;
+                Piece pieceRight = x < (width - 1) ? (Piece)AllPieces[x + 1, y] : null;
+
+                String pieceColour = (String)piece.Get("colour");
                 String pieceUpColour = pieceUp != null ? (String)pieceUp.Get("colour") : "blankUp";
                 String pieceDownColour = pieceDown != null ? (String)pieceDown.Get("colour") : "blankDown";
                 String pieceLeftColour = pieceLeft != null ? (String)pieceLeft.Get("colour") : "blankLeft";
