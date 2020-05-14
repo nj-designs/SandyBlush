@@ -146,8 +146,7 @@ public class Grid : Node2D
         }
         if (Input.IsActionJustReleased("ui_touch"))
         {
-            FinalTouch = GetGlobalMousePosition();
-            Vector2i gridPos = PixelToGrid(FinalTouch);
+            Vector2i gridPos = PixelToGrid(GetGlobalMousePosition());
             if (IsInGrid(gridPos) && controllingPiece)
             {
                 GD.Print("Swipe");
