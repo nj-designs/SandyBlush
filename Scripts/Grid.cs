@@ -158,7 +158,8 @@ public class Grid : Node2D
 
     private Vector2i PixelToGrid(Vector2 pixelPos)
     {
-        return new Vector2i((int)Mathf.Round((pixelPos.x - x_start) / offset), (int)Mathf.Round((pixelPos.y - y_start) / -offset));
+        return new Vector2i((int)Mathf.Round((pixelPos.x - x_start) / offset),
+                            (int)Mathf.Round((pixelPos.y - y_start) / -offset));
     }
 
     public override void _Process(float delta)
@@ -187,6 +188,7 @@ public class Grid : Node2D
         // other_piece.Position = GridToPixel(pos);
         ((Piece)first_piece).Move(GridToPixel(otherPos));
         ((Piece)other_piece).Move(GridToPixel(pos));
+        FindMatches();
     }
 
     private void TouchDifference(Vector2i pos1, Vector2i pos2)
@@ -216,5 +218,39 @@ public class Grid : Node2D
             }
         }
 
+    }
+
+    private void FindMatches()
+    {
+        for (int x = 1; x < width - 1; x++)
+        {
+            for (int y = 1; y < height - 1; y++)
+            {
+                Piece piece = (Piece)AllPieces[x, y];
+                Piece pieceUp = (Piece)AllPieces[x, y + 1];
+                Piece pieceDown = (Piece)AllPieces[x, y - 1];
+                Piece pieceLeft = (Piece)AllPieces[x - 1, y];
+                Piece pieceRight = (Piece)AllPieces[x + 1, y];
+
+                String pieceColour = piece != null ? (String)piece.Get("colour") : "blank";
+                String pieceUpColour = pieceUp != null ? (String)pieceUp.Get("colour") : "blankUp";
+                String pieceDownColour = pieceDown != null ? (String)pieceDown.Get("colour") : "blankDown";
+                String pieceLeftColour = pieceLeft != null ? (String)pieceLeft.Get("colour") : "blankLeft";
+                String pieceRightColour = pieceRight != null ? (String)pieceRight.Get("colour") : "blankRight";
+
+                if (pieceColour == pieceLeftColour && pieceColour == pieceRightColour)
+                {
+                    piece.SetMatched(true);
+                    pieceLeft.SetMatched(true);
+                    pieceRight.SetMatched(true);
+                }
+                if (pieceColour == pieceUpColour && pieceColour == pieceDownColour)
+                {
+                    piece.SetMatched(true);
+                    pieceUp.SetMatched(true);
+                    pieceDown.SetMatched(true);
+                }
+            }
+        }
     }
 }

@@ -3,10 +3,13 @@ using System;
 
 public class Piece : Node2D
 {
-    protected Tween move_tween;
 
     [Export]
     public String colour;
+
+    protected Tween move_tween;
+
+    private bool IsMatched = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -25,5 +28,20 @@ public class Piece : Node2D
         move_tween.InterpolateProperty(this,
         "position", Position, target, 0.5f, Tween.TransitionType.Sine, Tween.EaseType.In);
         move_tween.Start();
+    }
+
+    private void Dim()
+    {
+        Sprite sprite = (Sprite)GetNode("Sprite");
+        sprite.Modulate = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+    }
+
+    public void SetMatched(bool isMatched)
+    {
+        IsMatched = isMatched;
+        if (isMatched)
+        {
+            Dim();
+        }
     }
 }
