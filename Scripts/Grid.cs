@@ -50,6 +50,10 @@ public class Grid : Node2D
     [Export]
     private int refill_y_offset; // Spawn refill piece this many rows above target place
 
+    enum State { WAIT, MOVE };
+
+    private State state_;
+
     // All possible pices are list here
     private PackedScene[] PossiblePieces = new PackedScene[] {
         (PackedScene)GD.Load("res://Scenes/yellow_piece.tscn"),
@@ -75,6 +79,7 @@ public class Grid : Node2D
         GD.Print("_Ready()");
         AllPieces = new Node2D[width, height];
         SpawnPieces();
+        state_ = State.MOVE;
     }
 
     private Vector2 GridToPixel(Vector2i pos)
@@ -166,7 +171,10 @@ public class Grid : Node2D
 
     public override void _Process(float delta)
     {
-        TouchInput();
+        if (state_ == State.MOVE)
+        {
+            TouchInput();
+        }
     }
 
     private bool IsInGrid(Vector2i pos)
@@ -186,6 +194,7 @@ public class Grid : Node2D
         Node2D other_piece = AllPieces[otherPos.X, otherPos.Y];
         if (first_piece != null && other_piece != null)
         {
+            state_ = State.WAIT;
             if (first_piece.IsQueuedForDeletion() == false && other_piece.IsQueuedForDeletion() == false)
             {
                 AllPieces[pos.X, pos.Y] = other_piece;
@@ -359,6 +368,28 @@ public class Grid : Node2D
                 }
             }
         }
+        CheckMatchesPostRefill();
+    }
+
+    private void CheckMatchesPostRefill()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Piece piece = (Piece)AllPieces[x, y];
+                if (piece != null)
+                {
+                    if (MatchAt(x, y, (String)piece.Get("colour")))
+                    {
+                        FindMatches();
+                        GetParent().GetNode<Timer>("destroy_timer").Start();
+                        return;
+                    }
+                }
+            }
+        }
+        state_ = State.MOVE;
     }
 
 }
