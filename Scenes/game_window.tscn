@@ -47,5 +47,10 @@ one_shot = true
 [node name="collapse_timer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="refill_timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
 [connection signal="timeout" from="destroy_timer" to="grid" method="OnDestroyTimerTimeout"]
 [connection signal="timeout" from="collapse_timer" to="grid" method="OnCollaspeTimerTimeout"]
+[connection signal="timeout" from="refill_timer" to="grid" method="OnRefillTimerTimeout"]

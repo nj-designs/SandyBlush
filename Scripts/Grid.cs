@@ -277,6 +277,13 @@ public class Grid : Node2D
     {
         GD.Print("CollaspeTimerTimeout!");
         CollaspeColumns();
+        GetParent().GetNode<Timer>("refill_timer").Start();
+    }
+
+    public void OnRefillTimerTimeout()
+    {
+        GD.Print("RefillTimerTimeout!");
+        RefillColumns();
     }
 
     private void DestroyMatched()
@@ -318,6 +325,34 @@ public class Grid : Node2D
                             break;
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private void RefillColumns()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (AllPieces[x, y] == null)
+                {
+                    int piece_idx = 0;
+                    int loops = 0;
+                    Node2D piece = null;
+                    do
+                    {
+                        if (++loops == 100)
+                        {
+                            break;
+                        }
+                        piece_idx = (int)Math.Floor(GD.RandRange(0, PossiblePieces.Length));
+                        piece = (Node2D)PossiblePieces[piece_idx].Instance();
+                    } while (MatchAt(x, y, (String)piece.Get("colour")));
+                    piece.Position = GridToPixel(new Vector2i(x, y));
+                    AddChild(piece);
+                    AllPieces[x, y] = piece;
                 }
             }
         }
