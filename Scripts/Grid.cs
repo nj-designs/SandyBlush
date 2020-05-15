@@ -268,8 +268,15 @@ public class Grid : Node2D
 
     public void OnDestroyTimerTimeout()
     {
-        GD.Print("Bang!");
+        GD.Print("DestroyTimerTimeout!");
         DestroyMatched();
+        GetParent().GetNode<Timer>("collapse_timer").Start();
+    }
+
+    public void OnCollaspeTimerTimeout()
+    {
+        GD.Print("CollaspeTimerTimeout!");
+        CollaspeColumns();
     }
 
     private void DestroyMatched()
@@ -288,6 +295,30 @@ public class Grid : Node2D
                     }
                 }
 
+            }
+        }
+    }
+
+    private void CollaspeColumns()
+    {
+        for (int col = 0; col < width; col++)
+        {
+            for (int row = 0; row < height; row++)
+            {
+                if (AllPieces[col, row] == null)
+                {
+                    for (int collaspe_idx = row + 1; collaspe_idx < height; collaspe_idx++)
+                    {
+                        Piece piece = (Piece)AllPieces[col, collaspe_idx];
+                        if (piece != null)
+                        {
+                            piece.Move(GridToPixel(new Vector2i(col, row)));
+                            AllPieces[col, row] = AllPieces[col, collaspe_idx];
+                            AllPieces[col, collaspe_idx] = null;
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
