@@ -47,6 +47,8 @@ public class Grid : Node2D
     private int y_start; //800
     [Export]
     private int offset; //64
+    [Export]
+    private int refill_y_offset; // Spawn refill piece this many rows above target place
 
     // All possible pices are list here
     private PackedScene[] PossiblePieces = new PackedScene[] {
@@ -340,7 +342,7 @@ public class Grid : Node2D
                 {
                     int piece_idx = 0;
                     int loops = 0;
-                    Node2D piece = null;
+                    Piece piece = null;
                     do
                     {
                         if (++loops == 100)
@@ -348,11 +350,12 @@ public class Grid : Node2D
                             break;
                         }
                         piece_idx = (int)Math.Floor(GD.RandRange(0, PossiblePieces.Length));
-                        piece = (Node2D)PossiblePieces[piece_idx].Instance();
+                        piece = (Piece)PossiblePieces[piece_idx].Instance();
                     } while (MatchAt(x, y, (String)piece.Get("colour")));
-                    piece.Position = GridToPixel(new Vector2i(x, y));
+                    piece.Position = GridToPixel(new Vector2i(x, y + refill_y_offset));
                     AddChild(piece);
                     AllPieces[x, y] = piece;
+                    piece.Move(GridToPixel(new Vector2i(x, y)));
                 }
             }
         }
