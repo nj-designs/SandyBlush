@@ -9,7 +9,7 @@ public class Piece : Node2D
 
     protected Tween move_tween;
 
-    private bool IsMatched = false;
+    private bool isMatched_ = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -26,7 +26,7 @@ public class Piece : Node2D
     public void Move(Vector2 target)
     {
         move_tween.InterpolateProperty(this,
-        "position", Position, target, 0.5f, Tween.TransitionType.Sine, Tween.EaseType.In);
+        "position", Position, target, 0.3f, Tween.TransitionType.Sine, Tween.EaseType.In);
         move_tween.Start();
     }
 
@@ -38,10 +38,16 @@ public class Piece : Node2D
 
     public void SetMatched(bool isMatched)
     {
-        IsMatched = isMatched;
+        isMatched_ = isMatched;
         if (isMatched)
         {
             Dim();
         }
     }
+
+    public bool IsMatched()
+    {
+        return isMatched_;
+    }
+
 }

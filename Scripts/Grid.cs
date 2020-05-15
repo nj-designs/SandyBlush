@@ -182,13 +182,19 @@ public class Grid : Node2D
         GD.Print(string.Format("SwapPieces() pos:{0} otherPos:{1}", pos, otherPos));
         Node2D first_piece = AllPieces[pos.X, pos.Y];
         Node2D other_piece = AllPieces[otherPos.X, otherPos.Y];
-        AllPieces[pos.X, pos.Y] = other_piece;
-        AllPieces[otherPos.X, otherPos.Y] = first_piece;
-        // first_piece.Position = GridToPixel(otherPos);
-        // other_piece.Position = GridToPixel(pos);
-        ((Piece)first_piece).Move(GridToPixel(otherPos));
-        ((Piece)other_piece).Move(GridToPixel(pos));
-        FindMatches();
+        if (first_piece != null && other_piece != null)
+        {
+            if (first_piece.IsQueuedForDeletion() == false && other_piece.IsQueuedForDeletion() == false)
+            {
+                AllPieces[pos.X, pos.Y] = other_piece;
+                AllPieces[otherPos.X, otherPos.Y] = first_piece;
+                // first_piece.Position = GridToPixel(otherPos);
+                // other_piece.Position = GridToPixel(pos);
+                ((Piece)first_piece).Move(GridToPixel(otherPos));
+                ((Piece)other_piece).Move(GridToPixel(pos));
+                FindMatches();
+            }
+        }
     }
 
     private void TouchDifference(Vector2i pos1, Vector2i pos2)
@@ -257,5 +263,33 @@ public class Grid : Node2D
                 }
             }
         }
+        GetParent().GetNode<Timer>("destroy_timer").Start();
     }
+
+    public void OnDestroyTimerTimeout()
+    {
+        GD.Print("Bang!");
+        DestroyMatched();
+    }
+
+    private void DestroyMatched()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Piece piece = (Piece)AllPieces[x, y];
+                if (piece != null)
+                {
+                    if (piece.IsMatched())
+                    {
+                        piece.QueueFree();
+                        AllPieces[x, y] = null;
+                    }
+                }
+
+            }
+        }
+    }
+
 }
