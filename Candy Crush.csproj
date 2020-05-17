@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\TopUI.cs" />
     <Compile Include="Scripts\Grid.cs" />
     <Compile Include="Scripts\Piece.cs" />
   </ItemGroup>

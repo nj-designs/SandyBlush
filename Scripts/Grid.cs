@@ -73,6 +73,13 @@ public class Grid : Node2D
 
     bool controllingPiece = false;
 
+    //Score vars
+    [Signal]
+    delegate void UpdateScore(int value);
+    [Export]
+    private int piece_value;
+    private int streak = 1;
+
     public override void _Ready()
     {
         GD.Randomize();
@@ -190,8 +197,8 @@ public class Grid : Node2D
     {
         Vector2i otherPos = new Vector2i(pos.X + direction.X, pos.Y + direction.Y);
         GD.Print(string.Format("SwapPieces() pos:{0} otherPos:{1}", pos, otherPos));
-        Node2D first_piece = AllPieces[pos.X, pos.Y];
-        Node2D other_piece = AllPieces[otherPos.X, otherPos.Y];
+        Piece first_piece = AllPieces[pos.X, pos.Y] as Piece;
+        Piece other_piece = AllPieces[otherPos.X, otherPos.Y] as Piece;
         if (first_piece != null && other_piece != null)
         {
             state_ = State.WAIT;
@@ -199,10 +206,8 @@ public class Grid : Node2D
             {
                 AllPieces[pos.X, pos.Y] = other_piece;
                 AllPieces[otherPos.X, otherPos.Y] = first_piece;
-                // first_piece.Position = GridToPixel(otherPos);
-                // other_piece.Position = GridToPixel(pos);
-                ((Piece)first_piece).Move(GridToPixel(otherPos));
-                ((Piece)other_piece).Move(GridToPixel(pos));
+                first_piece.Move(GridToPixel(otherPos));
+                other_piece.Move(GridToPixel(pos));
                 FindMatches();
             }
         }
@@ -310,6 +315,7 @@ public class Grid : Node2D
                     {
                         piece.QueueFree();
                         AllPieces[x, y] = null;
+                        EmitSignal(nameof(UpdateScore), piece_value * streak);
                     }
                 }
 
@@ -343,6 +349,7 @@ public class Grid : Node2D
 
     private void RefillColumns()
     {
+        streak++;
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -390,6 +397,7 @@ public class Grid : Node2D
             }
         }
         state_ = State.MOVE;
+        streak = 1;
     }
 
 }
