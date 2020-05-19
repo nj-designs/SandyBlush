@@ -80,6 +80,9 @@ public class Grid : Node2D
     private int piece_value;
     private int streak = 1;
 
+    // Effects
+    private PackedScene particleEffect = (PackedScene)GD.Load("res://Scenes/ParticleEffect.tscn");
+
     public override void _Ready()
     {
         GD.Randomize();
@@ -315,12 +318,20 @@ public class Grid : Node2D
                     {
                         piece.QueueFree();
                         AllPieces[x, y] = null;
+                        makeEffect(particleEffect, new Vector2i(x, y));
                         EmitSignal(nameof(UpdateScore), piece_value * streak);
                     }
                 }
 
             }
         }
+    }
+
+    private void makeEffect(PackedScene effect, Vector2i pos)
+    {
+        Node2D current = (Node2D)effect.Instance();
+        current.Position = GridToPixel(pos);
+        AddChild(current);
     }
 
     private void CollaspeColumns()
