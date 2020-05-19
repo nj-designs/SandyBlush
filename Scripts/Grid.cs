@@ -80,6 +80,13 @@ public class Grid : Node2D
     private int piece_value;
     private int streak = 1;
 
+    //Counter vars
+    [Signal]
+    delegate void UpdateCounter(int cnt);
+    private int currentCntValue;
+    [Export]
+    private bool movesNotTime;
+
     // Effects
     private PackedScene particleEffect = (PackedScene)GD.Load("res://Scenes/ParticleEffect.tscn");
     private PackedScene animatedEffect = (PackedScene)GD.Load("res://Scenes/AnimatedExplosion.tscn");
@@ -90,6 +97,17 @@ public class Grid : Node2D
         AllPieces = new Node2D[width, height];
         SpawnPieces();
         state_ = State.MOVE;
+        if (movesNotTime == true)
+        {
+            currentCntValue = 10;
+        }
+        else
+        {
+            currentCntValue = 5;
+            Timer timer = GetNode<Timer>("Timer");
+            timer.Start();
+        }
+        EmitSignal(nameof(UpdateCounter), currentCntValue);
     }
 
     private Vector2 GridToPixel(Vector2i pos)
@@ -410,6 +428,33 @@ public class Grid : Node2D
         }
         state_ = State.MOVE;
         streak = 1;
+        decCounter();
     }
 
+    public void OnTimerTimeout()
+    {
+        decCounter();
+    }
+
+    private void decCounter()
+    {
+        currentCntValue--;
+        EmitSignal(nameof(UpdateCounter), currentCntValue);
+        if (currentCntValue == 0)
+        {
+            if (movesNotTime == false)
+            {
+                Timer timer = GetNode<Timer>("Timer");
+                timer.Stop();
+            }
+            declareGameOver();
+        }
+    }
+
+
+    private void declareGameOver()
+    {
+        GD.Print("Game Over!");
+        state_ = State.WAIT;
+    }
 }
