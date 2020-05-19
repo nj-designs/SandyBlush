@@ -82,11 +82,11 @@ public class Grid : Node2D
 
     // Effects
     private PackedScene particleEffect = (PackedScene)GD.Load("res://Scenes/ParticleEffect.tscn");
+    private PackedScene animatedEffect = (PackedScene)GD.Load("res://Scenes/AnimatedExplosion.tscn");
 
     public override void _Ready()
     {
         GD.Randomize();
-        GD.Print("_Ready()");
         AllPieces = new Node2D[width, height];
         SpawnPieces();
         state_ = State.MOVE;
@@ -319,6 +319,7 @@ public class Grid : Node2D
                         piece.QueueFree();
                         AllPieces[x, y] = null;
                         makeEffect(particleEffect, new Vector2i(x, y));
+                        makeEffect(animatedEffect, new Vector2i(x, y));
                         EmitSignal(nameof(UpdateScore), piece_value * streak);
                     }
                 }
