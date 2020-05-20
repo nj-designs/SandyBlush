@@ -87,6 +87,9 @@ public class Grid : Node2D
     [Export]
     private bool movesNotTime;
 
+    [Signal]
+    delegate void GameOver();
+
     // Effects
     private PackedScene particleEffect = (PackedScene)GD.Load("res://Scenes/ParticleEffect.tscn");
     private PackedScene animatedEffect = (PackedScene)GD.Load("res://Scenes/AnimatedExplosion.tscn");
@@ -99,7 +102,7 @@ public class Grid : Node2D
         state_ = State.MOVE;
         if (movesNotTime == true)
         {
-            currentCntValue = 10;
+            currentCntValue = 2;
         }
         else
         {
@@ -455,6 +458,7 @@ public class Grid : Node2D
     private void declareGameOver()
     {
         GD.Print("Game Over!");
+        EmitSignal(nameof(GameOver));
         state_ = State.WAIT;
     }
 }

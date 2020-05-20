@@ -58,6 +58,7 @@
     <Compile Include="Scripts\BaseMenuPanel.cs" />
     <Compile Include="Scripts\DestroyPartical.cs" />
     <Compile Include="Scripts\GameMenu.cs" />
+    <Compile Include="Scripts\GameOverPanel.cs" />
     <Compile Include="Scripts\MainMenuPanel.cs" />
     <Compile Include="Scripts\SettingsPanel.cs" />
     <Compile Include="Scripts\TopUI.cs" />
