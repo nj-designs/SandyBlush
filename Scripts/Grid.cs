@@ -93,6 +93,9 @@ public class Grid : Node2D
     private bool movesNotTime;
 
     [Signal]
+    delegate void SigCheckGoal(String colour);
+
+    [Signal]
     delegate void GameOver();
 
     // Effects
@@ -314,21 +317,21 @@ public class Grid : Node2D
 
     public void OnDestroyTimerTimeout()
     {
-        GD.Print("DestroyTimerTimeout!");
+        //GD.Print("DestroyTimerTimeout!");
         DestroyMatched();
         GetParent().GetNode<Timer>("collapse_timer").Start();
     }
 
     public void OnCollaspeTimerTimeout()
     {
-        GD.Print("CollaspeTimerTimeout!");
+        //GD.Print("CollaspeTimerTimeout!");
         CollaspeColumns();
         GetParent().GetNode<Timer>("refill_timer").Start();
     }
 
     public void OnRefillTimerTimeout()
     {
-        GD.Print("RefillTimerTimeout!");
+        //GD.Print("RefillTimerTimeout!");
         RefillColumns();
     }
 
@@ -343,6 +346,7 @@ public class Grid : Node2D
                 {
                     if (piece.IsMatched())
                     {
+                        EmitSignal(nameof(SigCheckGoal), piece.colour);
                         piece.QueueFree();
                         AllPieces[x, y] = null;
                         makeEffect(particleEffect, new Vector2i(x, y));

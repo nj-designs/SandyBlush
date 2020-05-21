@@ -21,7 +21,7 @@ public class TopUI : TextureRect
 
     void OnUpdateScore(int score_delta)
     {
-        GD.Print(String.Format("Update score {0}", score_delta));
+        // GD.Print(String.Format("Update score {0}", score_delta));
         currentScore += score_delta;
         scoreLabel.Text = currentScore.ToString();
         UpdateScoreBar();
