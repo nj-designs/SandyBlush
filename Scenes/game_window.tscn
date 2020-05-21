@@ -37,6 +37,7 @@ y_start = 800
 offset = 64
 refill_y_offset = 2
 piece_value = 10
+MaxScore = 5000
 movesNotTime = true
 
 [node name="Timer" type="Timer" parent="grid"]
@@ -55,6 +56,7 @@ one_shot = true
 
 [node name="GameOverPanel" parent="." instance=ExtResource( 5 )]
 [connection signal="GameOver" from="grid" to="GameOverPanel" method="OnGameOver"]
+[connection signal="SetMaxScore" from="grid" to="top_ui" method="OnSetMaxScore"]
 [connection signal="UpdateCounter" from="grid" to="top_ui" method="OnUpdateCounter"]
 [connection signal="UpdateScore" from="grid" to="top_ui" method="OnUpdateScore"]
 [connection signal="timeout" from="grid/Timer" to="grid" method="OnTimerTimeout"]

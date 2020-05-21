@@ -79,6 +79,11 @@ public class Grid : Node2D
     [Export]
     private int piece_value;
     private int streak = 1;
+    [Signal]
+    delegate void SetMaxScore(int value);
+
+    [Export]
+    public int MaxScore;
 
     //Counter vars
     [Signal]
@@ -102,15 +107,16 @@ public class Grid : Node2D
         state_ = State.MOVE;
         if (movesNotTime == true)
         {
-            currentCntValue = 2;
+            currentCntValue = 20;//TODO(njohn) Fixme
         }
         else
         {
-            currentCntValue = 5;
+            currentCntValue = 60; //TODO(njohn) Fixme
             Timer timer = GetNode<Timer>("Timer");
             timer.Start();
         }
         EmitSignal(nameof(UpdateCounter), currentCntValue);
+        EmitSignal(nameof(SetMaxScore), MaxScore);
     }
 
     private Vector2 GridToPixel(Vector2i pos)
