@@ -26,10 +26,10 @@ public class Goal : Node
         if (numberCollected < MaxNeeded)
         {
             numberCollected++;
-        }
-        if (numberCollected == MaxNeeded)
-        {
-            GD.Print("Goal Met");
+            if (numberCollected == MaxNeeded)
+            {
+                GD.Print("Goal Met");
+            }
         }
     }
 }

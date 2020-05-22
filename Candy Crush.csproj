@@ -61,6 +61,7 @@
     <Compile Include="Scripts\GameOverPanel.cs" />
     <Compile Include="Scripts\Goal.cs" />
     <Compile Include="Scripts\GoalHolder.cs" />
+    <Compile Include="Scripts\GoalPrefab.cs" />
     <Compile Include="Scripts\MainMenuPanel.cs" />
     <Compile Include="Scripts\SettingsPanel.cs" />
     <Compile Include="Scripts\TopUI.cs" />
