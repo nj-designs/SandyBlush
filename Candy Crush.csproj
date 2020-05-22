@@ -67,6 +67,7 @@
     <Compile Include="Scripts\TopUI.cs" />
     <Compile Include="Scripts\Grid.cs" />
     <Compile Include="Scripts\Piece.cs" />
+    <Compile Include="Scripts\WinPanel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

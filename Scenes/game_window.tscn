@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://art/background 2.png" type="Texture" id=1]
 [ext_resource path="res://art/Bottom UI v 2.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scenes/Goal.tscn" type="PackedScene" id=7]
 [ext_resource path="res://art/Pieces/Blue Piece.png" type="Texture" id=8]
 [ext_resource path="res://art/Pieces/Pink Piece.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/WinPanel.tscn" type="PackedScene" id=10]
 
 [node name="game_window" type="Node2D"]
 
@@ -72,10 +73,12 @@ GoalString = "blue"
 GoalTexture = ExtResource( 9 )
 MaxNeeded = 3
 GoalString = "pink"
+
+[node name="WinPanel" parent="." instance=ExtResource( 10 )]
 [connection signal="GameOver" from="grid" to="GameOverPanel" method="OnGameOver"]
 [connection signal="SetMaxScore" from="grid" to="top_ui" method="OnSetMaxScore"]
-[connection signal="SigCheckGoal" from="grid" to="top_ui" method="OnSigCheckGoal"]
 [connection signal="SigCheckGoal" from="grid" to="GoalHolder" method="OnSigCheckGoal"]
+[connection signal="SigCheckGoal" from="grid" to="top_ui" method="OnSigCheckGoal"]
 [connection signal="UpdateCounter" from="grid" to="top_ui" method="OnUpdateCounter"]
 [connection signal="UpdateScore" from="grid" to="top_ui" method="OnUpdateScore"]
 [connection signal="timeout" from="grid/Timer" to="grid" method="OnTimerTimeout"]
@@ -83,3 +86,5 @@ GoalString = "pink"
 [connection signal="timeout" from="collapse_timer" to="grid" method="OnCollaspeTimerTimeout"]
 [connection signal="timeout" from="refill_timer" to="grid" method="OnRefillTimerTimeout"]
 [connection signal="SigCreateGoals" from="GoalHolder" to="top_ui" method="OnSigCreateGoals"]
+[connection signal="SigGameWon" from="GoalHolder" to="WinPanel" method="OnSigGameWon"]
+[connection signal="SigGameWon" from="GoalHolder" to="grid" method="OnSigGameWon"]

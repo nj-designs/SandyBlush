@@ -471,4 +471,10 @@ public class Grid : Node2D
         EmitSignal(nameof(GameOver));
         state_ = State.WAIT;
     }
+
+    public void OnSigGameWon()
+    {
+        GD.Print("OnSigGameWon Game Over!");
+        state_ = State.WAIT;
+    }
 }

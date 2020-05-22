@@ -32,4 +32,9 @@ public class Goal : Node
             }
         }
     }
+
+    public bool isGoalMet()
+    {
+        return numberCollected == MaxNeeded;
+    }
 }
