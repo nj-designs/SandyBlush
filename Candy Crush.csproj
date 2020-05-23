@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\AnimatedExplosion.cs" />
     <Compile Include="Scripts\BaseMenuPanel.cs" />
+    <Compile Include="Scripts\BottomUI.cs" />
     <Compile Include="Scripts\DestroyPartical.cs" />
     <Compile Include="Scripts\GameMenu.cs" />
     <Compile Include="Scripts\GameOverPanel.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Scripts\GoalHolder.cs" />
     <Compile Include="Scripts\GoalPrefab.cs" />
     <Compile Include="Scripts\MainMenuPanel.cs" />
+    <Compile Include="Scripts\PausePanel.cs" />
     <Compile Include="Scripts\SettingsPanel.cs" />
     <Compile Include="Scripts\TopUI.cs" />
     <Compile Include="Scripts\Grid.cs" />

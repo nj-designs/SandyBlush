@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://art/UI/Quit Button Pause.png" type="Texture" id=1]
+[ext_resource path="res://art/UI/Continue Button Pause.png" type="Texture" id=2]
+[ext_resource path="res://art/UI/Pause Panel.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/PausePanel.cs" type="Script" id=4]
+[ext_resource path="res://Animations/SlideIn.tres" type="Animation" id=5]
+
+[node name="PausePanel" type="CanvasLayer"]
+pause_mode = 2
+offset = Vector2( 576, 0 )
+transform = Transform2D( 1, 0, 0, 1, 576, 0 )
+script = ExtResource( 4 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 32
+custom_constants/margin_top = 384
+custom_constants/margin_left = 32
+custom_constants/margin_bottom = 896
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+margin_left = 32.0
+margin_top = 384.0
+margin_right = 544.0
+margin_bottom = 870.0
+texture = ExtResource( 3 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TextureRect"]
+margin_left = 36.0
+margin_top = 236.0
+margin_right = 476.0
+margin_bottom = 400.0
+custom_constants/separation = 40
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="TextureButton" parent="MarginContainer/TextureRect/HBoxContainer"]
+margin_left = 8.0
+margin_right = 200.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 192, 100 )
+texture_normal = ExtResource( 1 )
+expand = true
+stretch_mode = 5
+
+[node name="ContinueButton" type="TextureButton" parent="MarginContainer/TextureRect/HBoxContainer"]
+margin_left = 240.0
+margin_right = 432.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 192, 100 )
+texture_normal = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/SlideIn = ExtResource( 5 )
+[connection signal="pressed" from="MarginContainer/TextureRect/HBoxContainer/QuitButton" to="." method="OnSigQuitButton"]
+[connection signal="pressed" from="MarginContainer/TextureRect/HBoxContainer/ContinueButton" to="." method="OnSigContinueButton"]
