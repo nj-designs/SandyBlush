@@ -12,8 +12,9 @@ public class PausePanel : BaseMenuPanel
 
     public void OnSigQuitButton()
     {
-        // GetTree().ChangeScene("res://Scenes/GameMenu.tscn");
-        GetTree().Quit();
+        GetTree().Paused = false;
+        GetTree().ChangeScene("res://Scenes/GameMenu.tscn");
+        //GetTree().Quit();
     }
 
     public void OnSigContinueButton()
