@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/LevelButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://art/Level Select Map 1.png" type="Texture" id=2]
+[ext_resource path="res://art/Star Blank.png" type="Texture" id=3]
+[ext_resource path="res://art/Red Button.png" type="Texture" id=4]
+[ext_resource path="res://art/Green Button 2.png" type="Texture" id=5]
+[ext_resource path="res://art/Star Filled.png" type="Texture" id=6]
 
 [node name="LevelBackdrop" type="TextureRect"]
 anchor_right = 1.0
@@ -13,15 +17,42 @@ __meta__ = {
 
 [node name="LevelButton" parent="." instance=ExtResource( 1 )]
 position = Vector2( 139.092, 319.912 )
+LevelNumber = 1
+LevelToLoad = "res://Scenes/game_window.tscn"
+LevelEnabled = true
+BlockedTexture = ExtResource( 4 )
+OpenTexture = ExtResource( 5 )
+GoalMetTexture = ExtResource( 6 )
+GoalNotMetTexture = ExtResource( 3 )
 
 [node name="LevelButton2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 294.29, 138.36 )
+LevelNumber = 2
+BlockedTexture = ExtResource( 4 )
+OpenTexture = ExtResource( 5 )
+GoalMetTexture = ExtResource( 6 )
+GoalNotMetTexture = ExtResource( 3 )
 
 [node name="LevelButton3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 508.784, 158.858 )
+position = Vector2( 507.487, 158.858 )
+LevelNumber = 3
+BlockedTexture = ExtResource( 4 )
+OpenTexture = ExtResource( 5 )
+GoalMetTexture = ExtResource( 6 )
+GoalNotMetTexture = ExtResource( 3 )
 
 [node name="LevelButton4" parent="." instance=ExtResource( 1 )]
 position = Vector2( 486.823, 418.741 )
+LevelNumber = 4
+BlockedTexture = ExtResource( 4 )
+OpenTexture = ExtResource( 5 )
+GoalMetTexture = ExtResource( 6 )
+GoalNotMetTexture = ExtResource( 3 )
 
 [node name="LevelButton5" parent="." instance=ExtResource( 1 )]
 position = Vector2( 258.419, 442.167 )
+LevelNumber = 5
+BlockedTexture = ExtResource( 4 )
+OpenTexture = ExtResource( 5 )
+GoalMetTexture = ExtResource( 6 )
+GoalNotMetTexture = ExtResource( 3 )

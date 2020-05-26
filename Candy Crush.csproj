@@ -63,6 +63,8 @@
     <Compile Include="Scripts\Goal.cs" />
     <Compile Include="Scripts\GoalHolder.cs" />
     <Compile Include="Scripts\GoalPrefab.cs" />
+    <Compile Include="Scripts\LevelButton.cs" />
+    <Compile Include="Scripts\LevelSelect.cs" />
     <Compile Include="Scripts\MainMenuPanel.cs" />
     <Compile Include="Scripts\PausePanel.cs" />
     <Compile Include="Scripts\SettingsPanel.cs" />
