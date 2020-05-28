@@ -3,6 +3,9 @@ using System;
 
 public class SettingsMgr : Node
 {
+    [Signal]
+    delegate void SigSFXOnChanged(bool onNotOff);
+
 
     private const string _cfgPath = "user://config.ini";
 
@@ -16,8 +19,21 @@ public class SettingsMgr : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        GD.Print("SettingsMgr::On Rdy");
         LoadConfig();
     }
+
+    public void SetSFXOn(bool onNotOff)
+    {
+        _sfxOn = onNotOff;
+        EmitSignal(nameof(SigSFXOnChanged), _sfxOn);
+    }
+
+    public void OnSigSoundChanged()
+    {
+        GD.Print("SettingsMgr::On OnSigSoundChanged");
+    }
+
 
     private void LoadConfig()
     {
@@ -29,6 +45,7 @@ public class SettingsMgr : Node
                 _cfgPath, err.ToString()));
             SaveConfig();
         }
+        SetSFXOn((bool)cfgFile.GetValue(_audioSectionName, _sfxOnKey, _sfxOn));
     }
 
     private void SaveConfig()
